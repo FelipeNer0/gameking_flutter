@@ -25,12 +25,19 @@ abstract class PigSpritesheet {
     amout: 4,
   );
 
+  static Future<SpriteAnimation> get attack => _flipSpriteSheet(
+    path: 'pig/attack.png',
+    size: Vector2(34,28),
+    amout: 5,
+  );
+
   static PlatformAnimations get animations => PlatformAnimations(
         idleRight: idle,
         runRight: run,
         others: {
           'hit': hit,
           'dead': dead,
+          'attack': attack,
         },
         centerAnchor: Vector2(14, 19),
       );

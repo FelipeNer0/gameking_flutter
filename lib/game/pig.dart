@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:game_king/main.dart';
 import 'package:game_king/utils/pig_spritesheet.dart';
 
-class Pig extends PlatformEnemy with HandleForces, UseLifeBar {
+class Pig extends PlatformEnemy with HandleForces, UseLifeBar, RandomMovement {
   Pig({
     required super.position,
   }) : super(
@@ -14,16 +14,26 @@ class Pig extends PlatformEnemy with HandleForces, UseLifeBar {
           setupLifeBar(
             borderRadius: BorderRadius.circular(50),
             barLifeDrawPosition: BarLifeDrawPosition.bottom,
-            offset: Vector2(3, 1)
+            offset: Vector2(0, -1),            
           );
+          mass = 2;
         }
         
   @override
   void update(double dt) {
-    if(!isDead){       
+    if(!isDead && jumpingState != JumpingStateEnum.down){       
       seeAndMoveToPlayer(
         movementAxis: MovementAxis.horizontal,
         radiusVision: Game.tileSize * 2,
+        closePlayer: _closePlayer,
+        notObserved: () {
+          runRandomMovement(
+            dt,
+            speed: speed / 2,
+            directions: RandomMovementDirections.horizontally,
+          );
+          return false; 
+        },
       );
     }
     super.update(dt);
@@ -34,7 +44,7 @@ class Pig extends PlatformEnemy with HandleForces, UseLifeBar {
     add(
       RectangleHitbox(
         size: Vector2.all(14),
-        position: Vector2(7, 14),    
+        position: Vector2(10, 8.5),    
       ),
     );
     return super.onLoad();
@@ -61,4 +71,41 @@ class Pig extends PlatformEnemy with HandleForces, UseLifeBar {
       onFinish: removeFromParent,
     );
   }
+
+  Future <void> _closePlayer(Player player) async{
+    if (checkInterval('execAttack', 1000, dtUpdate)) {      
+      animation?.playOnceOther(
+        'attack',
+        runToTheEnd: true,
+        useCompFlip: true,
+      );
+
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      simpleAttackMeleeByDirection(
+        direction: directionThatPlayerIs(),        
+        damage: 10,
+        size: size,
+        attackFrom: AttackOriginEnum.ENEMY,
+        withPush: false,                             
+      );      
+    }
+  }
+
+  Direction directionThatPlayerIs() {
+    final player = gameRef.player;
+    if (player == null) {
+      return Direction.down; // Direção padrão se o jogador não for encontrado
+    }
+
+    final diffX = player.position.x - position.x;
+    final diffY = player.position.y - position.y;
+
+    if (diffX.abs() > diffY.abs()) {
+      return diffX > 0 ? Direction.right : Direction.left;
+    } else {
+      return diffY > 0 ? Direction.down : Direction.up;
+    }
+  }
+
 }

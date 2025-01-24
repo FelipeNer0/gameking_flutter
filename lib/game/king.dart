@@ -120,7 +120,7 @@ class King extends PlatformPlayer with HandleForces{
   @override
   void onDie() {
     moveEnabled = false;
-    stopMove(forceIdle: true);
+    stopMove();
     animation?.playOnceOther(
       'dead',
       runToTheEnd: true,
