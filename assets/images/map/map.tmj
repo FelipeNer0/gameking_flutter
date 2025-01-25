@@ -75,14 +75,47 @@
          "objects":[
                 {
                  "height":28,
-                 "id":8,
+                 "id":9,
                  "name":"pig",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":34,
-                 "x":302,
-                 "y":224.67
+                 "x":508.892866684478,
+                 "y":226.807323002939
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":4,
+         "name":"decorations",
+         "objects":[
+                {
+                 "height":56,
+                 "id":10,
+                 "name":"door",
+                 "properties":[
+                        {
+                         "name":"map",
+                         "type":"string",
+                         "value":"map2"
+                        }, 
+                        {
+                         "name":"position",
+                         "type":"string",
+                         "value":"25,10"
+                        }],
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":46,
+                 "x":298.590185012022,
+                 "y":200.14603927331
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -90,8 +123,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":4,
- "nextobjectid":9,
+ "nextlayerid":5,
+ "nextobjectid":11,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",

@@ -1,11 +1,13 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/services.dart';
+import 'package:game_king/game/door.dart';
 import 'package:game_king/utils/dust_particle_builder.dart';
 import 'package:game_king/utils/king_spritesheet.dart';
 
 class King extends PlatformPlayer with HandleForces{
 
   bool moveEnabled = true;
+  Door? doorInContacting;
   King({
     required super.position,
   }) : super(
@@ -17,14 +19,16 @@ class King extends PlatformPlayer with HandleForces{
 
   @override
   void onJoystickAction(JoystickActionEvent event) {
-    if(event.event == ActionEvent.DOWN && 
-        (event.id ==1 || event.id == LogicalKeyboardKey.space)){
-      jump(jumpSpeed: 200);
-    }
+    if(moveEnabled){
+      if(event.event == ActionEvent.DOWN && 
+          (event.id ==1 || event.id == LogicalKeyboardKey.space)){
+        jump(jumpSpeed: 200);
+      }
 
-    if(event.event == ActionEvent.DOWN && 
-       (event.id ==2 || event.id == LogicalKeyboardKey.keyZ)){
-      _execAttack();      
+      if(event.event == ActionEvent.DOWN && 
+        (event.id ==2 || event.id == LogicalKeyboardKey.keyZ)){
+        _execAttack();      
+      }
     }
     super.onJoystickAction(event);
   }
@@ -32,6 +36,10 @@ class King extends PlatformPlayer with HandleForces{
   @override
   void onJoystickChangeDirectional(JoystickDirectionalEvent event) {
     if(moveEnabled){
+
+      if(event.directional == JoystickMoveDirectional.MOVE_UP && doorInContacting != null){
+        _enterDoor(doorInContacting!);
+      }
       super.onJoystickChangeDirectional(event);
     }
     
@@ -128,5 +136,10 @@ class King extends PlatformPlayer with HandleForces{
       onFinish: removeFromParent,
     );
     super.onDie();
+  }
+  
+  void _enterDoor(Door doorInContacting) {
+    moveEnabled = false;
+    doorInContacting.playOpening();
   }
 }

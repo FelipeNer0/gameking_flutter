@@ -1,5 +1,6 @@
 import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
+import 'package:game_king/game/door.dart';
 import 'package:game_king/game/king.dart';
 import 'package:game_king/game/pig.dart';
 
@@ -34,6 +35,12 @@ class Game extends StatelessWidget {
             'pig': (properties) => Pig(
               position: properties.position,
             ),
+            'door': (properties) => Door(
+              position: properties.position,
+              targetMap: properties.others['map'],
+              targetposition: _getVector2FromString(
+                properties.others['position']),
+            ),
           },
         ),
         playerControllers: [
@@ -65,6 +72,14 @@ class Game extends StatelessWidget {
         ],
         //showCollisionArea: true,       
       ),
+    );
+  }
+  
+  Vector2 _getVector2FromString(String text) {
+    final parts = text.split(',');
+    return Vector2(
+      double.parse(parts[0]) ?? 0,
+      double.parse(parts[1]) ?? 0,      
     );
   }
 }
