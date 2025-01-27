@@ -1,85 +1,21 @@
-import 'package:bonfire/bonfire.dart';
 import 'package:flutter/material.dart';
-import 'package:game_king/game/door.dart';
-import 'package:game_king/game/king.dart';
-import 'package:game_king/game/pig.dart';
+import 'package:game_king/game/game_route.dart';
+import 'package:game_king/pages/home_page.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MainApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Game(),
-    );
-  }
-}
-
-class Game extends StatelessWidget {
-
-  static const tileSize = 32.0;
-  const Game({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BonfireWidget(
-        map: WorldMapByTiled
-          (WorldMapReader.fromAsset('map/map.tmj'),
-          objectsBuilder: {
-            'pig': (properties) => Pig(
-              position: properties.position,
-            ),
-            'door': (properties) => Door(
-              position: properties.position,
-              targetMap: properties.others['map'],
-              targetposition: _getVector2FromString(
-                properties.others['position']),
-            ),
-          },
-        ),
-        playerControllers: [
-          Keyboard(),
-          Joystick(
-            directional: JoystickDirectional(),
-            actions: [
-              JoystickAction(
-                actionId: 1                
-              ),
-              JoystickAction(
-                actionId: 2,
-                margin: const EdgeInsets.only(bottom: 50, right: 120),
-                color: Colors.red,
-              )
-            ],            
-          ),
-        ],
-        //showCollisionArea: true,
-        player: King(
-          position: Vector2(tileSize * 3,5 * tileSize),
-          ),
-        cameraConfig: CameraConfig(
-          zoom: getZoomFromMaxVisibleTile(context, tileSize, 15)
-        ),
-        backgroundColor: const Color(0xFF3f3851),
-        globalForces: [
-          GravityForce2D(),          
-        ],
-        //showCollisionArea: true,       
-      ),
-    );
-  }
-  
-  Vector2 _getVector2FromString(String text) {
-    final parts = text.split(',');
-    return Vector2(
-      double.parse(parts[0]) ?? 0,
-      double.parse(parts[1]) ?? 0,      
+    return MaterialApp(
+      routes: {
+        '/': (_) => const HomePage(),
+        ...GameRoute.build,
+      },
     );
   }
 }

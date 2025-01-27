@@ -41,7 +41,7 @@ abstract class KingSpritesheet {
         'king/ground.png',
         SpriteAnimationData.sequenced(
           amount: 1,
-          stepTime: 0.12,
+          stepTime: 0.1,
           textureSize: Vector2(78, 58),
         ),
       );
@@ -58,7 +58,7 @@ abstract class KingSpritesheet {
   static Future<SpriteAnimation> get hit => SpriteAnimation.load(
         'king/hit.png',
         SpriteAnimationData.sequenced(
-          amount: 3,
+          amount: 2,
           stepTime: 0.1,
           textureSize: Vector2(78, 58),
         ),
@@ -91,21 +91,21 @@ abstract class KingSpritesheet {
         ),
       );
 
-      static PlatformAnimations get animations => PlatformAnimations(
-            idleRight: KingSpritesheet.idle, 
-            runRight: KingSpritesheet.run,
-            centerAnchor: Vector2(32,30),
-            jump: PlatformJumpAnimations(
-              jumpUpRight: KingSpritesheet.jump, 
-              jumpDownRight: KingSpritesheet.fall,
-            ),
-            others: {
-              'ground': KingSpritesheet.ground,
-              'attack': KingSpritesheet.attack,
-              'hit': KingSpritesheet.hit,
-              'dead': KingSpritesheet.dead,
-              'doorIn': KingSpritesheet.doorIn,
-              'doorOut': KingSpritesheet.doorOut,
-            },
-          );        
+  static PlatformAnimations get animations => PlatformAnimations(
+        idleRight: KingSpritesheet.idle,
+        runRight: KingSpritesheet.run,
+        centerAnchor: Vector2(32, 30),
+        jump: PlatformJumpAnimations(
+          jumpUpRight: KingSpritesheet.jump,
+          jumpDownRight: KingSpritesheet.fall,
+        ),
+        others: {
+          'ground': KingSpritesheet.ground,
+          'attack': KingSpritesheet.attack,
+          'hit': KingSpritesheet.hit,
+          'dead': KingSpritesheet.dead,
+          'doorIn': KingSpritesheet.doorIn,
+          'doorOut': KingSpritesheet.doorOut,
+        },
+      );
 }
