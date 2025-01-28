@@ -4,8 +4,10 @@ import 'package:game_king/components/king.dart';
 import 'package:game_king/game/game.dart';
 
 import '../utils/pig_spritesheet.dart';
+import '../utils/sound_manager.dart';
 import 'pig_base.dart';
 
+final SoundManager _soundManager = SoundManager();
 class PigBox extends PigBase {
   SimpleDirectionAnimation get nextBaseAnimation => PlatformAnimations(
         idleRight: PigSpritesheet.getIdleBox(),
@@ -56,7 +58,7 @@ class PigBox extends PigBase {
     (player as King).moveEnabled = false;
     (player).stopMove();
     bloc.updateEnemyState(this);
-
+  _soundManager.playSound('a-vo-te-mata-agora.mp3');
     gameRef.startScene(
       [
         CameraSceneAction.target(this),
@@ -65,22 +67,25 @@ class PigBox extends PigBase {
           whileThis: (game) {
             final canMove = !collidingWith(game.query<Box>().first);
             if (!canMove) {
-              game.query<Box>().first.removeFromParent();
+              game.query<Box>().first.removeFromParent();               
             }
             return canMove;
           },
           doThis: (move) => move.moveRight(),
         ),
+        
         AwaitSceneAction(wait: _playPickBox),
         MoveWhileSceneAction(
           component: this,
           whileThis: (_) => position.x > Game.tileSize * 11,
           doThis: (move) => move.moveLeft(),
-        ),
+          
+        ),        
         AwaitSceneAction(wait: _playThrowBox),
         CameraSceneAction.target(gameRef.player),
       ],
     );
+
   }
 
   Future<void> _playPickBox() async {
@@ -103,10 +108,11 @@ class PigBox extends PigBase {
 
   void _updateHitbox(ShapeHitbox hitbox) {
     children.query<ShapeHitbox>().forEach((element) {
-      element.removeFromParent();
+      element.removeFromParent(); 
     });
     add(hitbox);
   }
+  
 
   Future<void> _playThrowBox() async {
     animation?.playOnce(
@@ -125,6 +131,10 @@ class PigBox extends PigBase {
 
     await Future.delayed(const Duration(milliseconds: 300));
     _throwBox();
+        Future.delayed(Duration(milliseconds: 260), () {
+          _soundManager.setVolume(0.1);
+  _soundManager.playSound('box-crash.mp3');
+});
     (gameRef.player as King).moveEnabled = true;
   }
 
@@ -133,7 +143,8 @@ class PigBox extends PigBase {
       Box(
         position: position.translated(0, size.y / -3),
         destroyable: true,
-      )..moveUpLeft(speed: 100),
+        
+      )..moveUpLeft(speed: 100),      
     );
   }
 }

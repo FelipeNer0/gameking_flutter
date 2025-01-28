@@ -75,19 +75,22 @@ abstract class PigBase extends PlatformEnemy
       useCompFlip: true,
     );
     super.onReceiveDamage(attacker, damage, identify);
-    _soundManager.playSound('cavalo.mp3');
+    _soundManager.playSound('hit.mp3');
   }
 
   @override
   void onDie() {
     super.onDie();
     stopMove();
+    
     animation?.playOnceOther(
       'dead',
       runToTheEnd: true,
       useCompFlip: true,
       onFinish: removeFromParent,
     );
+    _soundManager.setVolume(0.2);
+    _soundManager.playSound('cavalo.mp3');
     bloc.updateEnemyState(this);
   }
 

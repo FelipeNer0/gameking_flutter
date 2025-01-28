@@ -10,6 +10,7 @@ import 'door.dart';
 
 final SoundManager _soundManager = SoundManager();
 
+
 class King extends PlatformPlayer
     with HandleForces, BonfireBlocReader<MapControllerCubit> {
   bool moveEnabled = true;
@@ -37,6 +38,8 @@ class King extends PlatformPlayer
       if (event.event == ActionEvent.DOWN &&
           (event.id == 1 || event.id == LogicalKeyboardKey.space)) {
         jump(jumpSpeed: 210);
+        _soundManager.setVolume(0.1);
+        _soundManager.playSound('jump.mp3');
       }
 
       if (event.event == ActionEvent.DOWN &&
@@ -96,10 +99,9 @@ class King extends PlatformPlayer
         'ground',
         runToTheEnd: true,
         useCompFlip: true,
-      );
-
+      );     
       showSmoke(SmokeDirection.center);
-      _soundManager.playSound('errou.mp3');
+      
     }
     super.onJump(state);
   }
@@ -162,6 +164,10 @@ class King extends PlatformPlayer
       () async {
         await animation?.playOnceOther(
           'doorIn',
+          onStart: () {
+            _soundManager.setVolume(0.8);
+            _soundManager.playSound('open-door.mp3');
+          },
           onFinish: () {
             opacity = 0.0;
           },
@@ -189,6 +195,8 @@ class King extends PlatformPlayer
           runToTheEnd: true,
           useCompFlip: true,
           onStart: () {
+            _soundManager.setVolume(0.3);
+            _soundManager.playSound('close-door.mp3');
             opacity = 1;
           },
           onFinish: () {
