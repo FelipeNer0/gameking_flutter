@@ -38,7 +38,7 @@ class King extends PlatformPlayer
       if (event.event == ActionEvent.DOWN &&
           (event.id == 1 || event.id == LogicalKeyboardKey.space)) {
         jump(jumpSpeed: 210);
-        _soundManager.setVolume(0.1);
+        _soundManager.setVolume(0.2);
         _soundManager.playSound('jump.mp3');
       }
 
@@ -118,7 +118,7 @@ class King extends PlatformPlayer
       marginFromCenter: 15,
       size: Vector2.all(32),
     );
-
+       _soundManager.setVolume(0.6);
      _soundManager.playSound('attack.mp3'); // Tocar som ao atacar
   }
 
@@ -142,6 +142,7 @@ class King extends PlatformPlayer
       useCompFlip: true,
     );
     super.onReceiveDamage(attacker, damage, identify);
+     _soundManager.setVolume(0.5);
     _soundManager.playSound('ui.mp3');
   }
 
@@ -195,7 +196,7 @@ class King extends PlatformPlayer
           runToTheEnd: true,
           useCompFlip: true,
           onStart: () {
-            _soundManager.setVolume(0.3);
+            _soundManager.setVolume(0.8);
             _soundManager.playSound('close-door.mp3');
             opacity = 1;
           },

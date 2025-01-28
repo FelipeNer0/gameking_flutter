@@ -131,8 +131,8 @@ class PigBox extends PigBase {
 
     await Future.delayed(const Duration(milliseconds: 300));
     _throwBox();
-        Future.delayed(Duration(milliseconds: 260), () {
-          _soundManager.setVolume(0.1);
+        Future.delayed(Duration(milliseconds: 270), () {
+          _soundManager.setVolume(0.5);
   _soundManager.playSound('box-crash.mp3');
 });
     (gameRef.player as King).moveEnabled = true;
