@@ -23,7 +23,7 @@ Para rodar o projeto em sua máquina local, siga os passos abaixo:
 Clone o repositório para o seu ambiente local:
 
 ```bash
-git clone https://github.com/usuario/game_king.git
+git clone https://github.com/FelipeNer0/game_king.git
 ````
 
 ### 2. **Limpar o Projeto**
