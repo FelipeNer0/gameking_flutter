@@ -5,7 +5,10 @@ import 'package:game_king/controllers/map_controller_cubit.dart';
 import 'package:game_king/utils/king_spritesheet.dart';
 
 import '../utils/dust_particle_builder.dart';
+import '../utils/sound_manager.dart';
 import 'door.dart';
+
+final SoundManager _soundManager = SoundManager();
 
 class King extends PlatformPlayer
     with HandleForces, BonfireBlocReader<MapControllerCubit> {
@@ -61,7 +64,7 @@ class King extends PlatformPlayer
     add(
       RectangleHitbox(
         size: Vector2.all(15),
-        position: Vector2(31, 28),
+        position: Vector2(31, 29),
       ),
     );
     return super.onLoad();
@@ -96,6 +99,7 @@ class King extends PlatformPlayer
       );
 
       showSmoke(SmokeDirection.center);
+      _soundManager.playSound('errou.mp3');
     }
     super.onJump(state);
   }
@@ -112,6 +116,8 @@ class King extends PlatformPlayer
       marginFromCenter: 15,
       size: Vector2.all(32),
     );
+
+     _soundManager.playSound('attack.mp3'); // Tocar som ao atacar
   }
 
   void showSmoke(SmokeDirection direction) {
@@ -134,6 +140,7 @@ class King extends PlatformPlayer
       useCompFlip: true,
     );
     super.onReceiveDamage(attacker, damage, identify);
+    _soundManager.playSound('ui.mp3');
   }
 
   @override

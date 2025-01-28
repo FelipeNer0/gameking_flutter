@@ -6,7 +6,9 @@ import 'package:game_king/game/game.dart';
 
 import '../utils/my_game_enemy.dart';
 import '../utils/pig_spritesheet.dart';
+import '../utils/sound_manager.dart';
 
+final SoundManager _soundManager = SoundManager();
 abstract class PigBase extends PlatformEnemy
     with
         HandleForces,
@@ -73,6 +75,7 @@ abstract class PigBase extends PlatformEnemy
       useCompFlip: true,
     );
     super.onReceiveDamage(attacker, damage, identify);
+    _soundManager.playSound('cavalo.mp3');
   }
 
   @override

@@ -14,6 +14,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
   bonfire_bloc: ^0.0.2
+  audioplayers: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -32,3 +33,4 @@ flutter:
     - assets/images/door/
     - assets/images/box/
     - assets/images/interface/
+    - assets/sounds/
